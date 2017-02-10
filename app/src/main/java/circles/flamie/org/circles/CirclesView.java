@@ -22,38 +22,20 @@ public class CirclesView extends View {
     private int displayWidth;
     private int displayHeight;
 
-    private int[] colors;
-    private Paint firstCirclePaint;
-    private Paint secondCirclePaint;
-    private Paint thirdCirclePaint;
-    private Paint fourthCirclePaint;
+    private Paint[] paints;
     private Random randomColor;
 
     public CirclesView(Context context) {
         super(context);
         setBackgroundColor(Color.BLACK);
         randomColor = new Random();
-        colors = new int[3];
-
-        firstCirclePaint = new Paint();
-        firstCirclePaint.setColor(Color.RED);
-        firstCirclePaint.setAntiAlias(true);
-        firstCirclePaint.setStyle(Paint.Style.FILL);
-
-        secondCirclePaint = new Paint();
-        secondCirclePaint.setColor(Color.YELLOW);
-        secondCirclePaint.setAntiAlias(true);
-        secondCirclePaint.setStyle(Paint.Style.FILL);
-
-        thirdCirclePaint = new Paint();
-        thirdCirclePaint.setColor(Color.BLUE);
-        thirdCirclePaint.setAntiAlias(true);
-        thirdCirclePaint.setStyle(Paint.Style.FILL);
-
-        fourthCirclePaint = new Paint();
-        fourthCirclePaint.setColor(Color.GREEN);
-        fourthCirclePaint.setAntiAlias(true);
-        fourthCirclePaint.setStyle(Paint.Style.FILL);
+        paints = new Paint[4];
+        for(int i = 0; i <= 3; i++) {
+            paints[i] = new Paint();
+            paints[i].setAntiAlias(true);
+            paints[i].setStyle(Paint.Style.FILL);
+            paints[i].setColor(Color.rgb(randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1));
+        }
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -73,20 +55,14 @@ public class CirclesView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int firstRandomResult = Color.rgb(randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1);
-        int secondRandomResult = Color.rgb(randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1);
-        int thirdRandomResult = Color.rgb(randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1);
-        int fourthRandomResult = Color.rgb(randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1);
+        canvas.drawCircle(displayWidth - dp(80), displayHeight - dp(80), dp(30), paints[0]); // left top
+        canvas.drawCircle(displayWidth + dp(80), displayHeight - dp(80), dp(30), paints[1]); // right top
+        canvas.drawCircle(displayWidth - dp(80), displayHeight + dp(80), dp(30), paints[2]); // left bottom
+        canvas.drawCircle(displayWidth + dp(80), displayHeight + dp(80), dp(30), paints[3]); // right bottom
 
-        canvas.drawCircle(displayWidth - dp(80), displayHeight - dp(80), dp(30), firstCirclePaint); // left top
-        canvas.drawCircle(displayWidth + dp(80), displayHeight - dp(80), dp(30), secondCirclePaint); // right top
-        canvas.drawCircle(displayWidth - dp(80), displayHeight + dp(80), dp(30), thirdCirclePaint); // left bottom
-        canvas.drawCircle(displayWidth + dp(80), displayHeight + dp(80), dp(30), fourthCirclePaint); // right bottom
-
-        firstCirclePaint.setColor(firstRandomResult);
-        secondCirclePaint.setColor(secondRandomResult);
-        thirdCirclePaint.setColor(thirdRandomResult);
-        fourthCirclePaint.setColor(fourthRandomResult);
+        for(int i = 0; i <= 3; i++) {
+            paints[i].setColor(Color.rgb(randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1, randomColor.nextInt(254) + 1));
+        }
     }
 
     @Override
